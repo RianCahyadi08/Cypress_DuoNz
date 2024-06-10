@@ -1,7 +1,7 @@
 import Authentication from "../../pom/authentication/Authentication.cy";
 import Dashboard from "../../pom/Dashboard.cy";
 
-describe("User do login", () => {
+describe("User access dashboard module", () => {
 
     const authenticationObject = new Authentication();
     const dashboardObject = new Dashboard();
