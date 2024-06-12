@@ -37,6 +37,20 @@ describe("User access training module", () => {
         trainingModuleObject.searchTrainingModule("Test training module");
     });
 
+    it("Verify update training module", () => {
+        cy.intercept('GET', '/api/trainingModule/list').as('getTrainingModule');
+        cy.intercept('POST', '/api/trainingModule/edit').as('updateTrainingModule')
+        trainingModuleObject.goToTrainingModule();
+        cy.wait('@getTrainingModule').then((req) => {
+            expect(req.response.statusCode).to.eq(200);
+        });
+        trainingModuleObject.searchTrainingModule("test module rian");
+        trainingModuleObject.updateTrainingModule("update training module", "lorem ipsum dolor sit amet, consectetur adipiscing elit");
+        cy.wait('@updateTrainingModule').then((req) => {
+            expect(req.response.statusCode).to.eq(200);
+        });
+    });
+
     it("Verify delete training module", () => {
         cy.intercept('GET', '/api/trainingModule/list').as('getTrainingModule');
         cy.intercept('POST', '/api/trainingModule/delete').as('postDeleteTrainingModule')
@@ -44,10 +58,12 @@ describe("User access training module", () => {
         cy.wait('@getTrainingModule').then((req) => {
             expect(req.response.statusCode).to.eq(200);
         });
-        trainingModuleObject.searchTrainingModule("test module rian");
+        trainingModuleObject.searchTrainingModule("update training module");
         trainingModuleObject.deleteTrainingModule();
         cy.wait('@postDeleteTrainingModule').then((req) => {
             expect(req.response.statusCode).to.eq(200);
         });
     });
+
+    
 })

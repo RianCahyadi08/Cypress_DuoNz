@@ -22,12 +22,23 @@ class TrainingModule {
                 cy.log('tidak ada')
             }
         });
-        // if (cy.get('td[colspan="5"]').contains('No matching records found')) {
-        //     cy.log('Not found record')
-        // } else if (cy.get('tr[class*="text-start"')) {
-        //     cy.get('button[class*="v-icon notranslate ml-2 v-icon--link mdi mdi-delete theme--light"]').click();
-        //     cy.get('div[class*="v-dialog v-dialog--active"]').should('have.visible')
-        // }
+    }
+
+    updateTrainingModule(nameTraining, descriptionTraining) {
+        cy.get('tbody').find('tr > td').then((element) => {
+            const itemCount = element.length;
+            cy.log(itemCount)
+            if (itemCount > 1) {
+                cy.get('button[class*="v-icon notranslate ml-2 v-icon--link mdi mdi-pencil theme--light"]').click();
+                cy.get('div[class*="v-dialog v-dialog--active"]').should('have.visible');
+                cy.get('input[type="text"]').eq(2).clear().type(nameTraining);
+                cy.get('textarea[rows="3"]').clear().type(descriptionTraining);
+                cy.get('input[type="checkbox"]').click({force: true});
+                cy.get('button[class*="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default primary"]').click();
+            } else {
+                cy.log('tidak ada')
+            }
+        });
     }
 
 }
