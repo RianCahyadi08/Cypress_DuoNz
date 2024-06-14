@@ -37,6 +37,19 @@ describe("User access training module", () => {
         trainingModuleObject.searchTrainingModule("Test training module");
     });
 
+    it("Verify create training module", () => {
+        cy.intercept('GET', '/api/trainingModule/list').as('getTrainingModule');
+        cy.intercept('POST', '/api/trainingModule/add').as('postCreateTrainingModule');
+        trainingModuleObject.goToTrainingModule();
+        cy.wait('@getTrainingModule').then((req) => {
+            expect(req.response.statusCode).to.eq(200);
+        });
+        trainingModuleObject.createTrainingModule('test module rian', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit');
+        cy.wait('@postCreateTrainingModule').then((req) => {
+            expect(req.response.statusCode).to.eq(200);
+        });
+    });
+
     it("Verify update training module", () => {
         cy.intercept('GET', '/api/trainingModule/list').as('getTrainingModule');
         cy.intercept('POST', '/api/trainingModule/edit').as('updateTrainingModule')
