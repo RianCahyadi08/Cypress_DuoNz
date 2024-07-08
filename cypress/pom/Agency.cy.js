@@ -22,6 +22,10 @@ class Agency {
     exportAgencyInfoReport() {
         cy.get('button[class*="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default primary"]').click();
     }
+
+    detailAgency() {
+        cy.get('button[class*="v-icon notranslate v-icon--link mdi mdi-account-group-outline theme--light"]').eq(0).click();
+    }
 }
 
 export default Agency;

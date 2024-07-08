@@ -45,7 +45,7 @@ describe("User access agency module", () => {
         agencyObject.searchAgency("Duo123");
     })
 
-    it.only("Verify export agency info report", () => {
+    it("Verify export agency info report", () => {
         cy.intercept('GET', '/system/agency/list').as('getAgencyList');
         cy.intercept('GET', '/administrator/account/manager').as('getAccountManager');
         cy.intercept('GET', '/system/agency/group/list').as('getGroupList');
@@ -56,5 +56,18 @@ describe("User access agency module", () => {
             expect(reqGroupList.response.statusCode).to.eq(200);
         });
         agencyObject.exportAgencyInfoReport();
+    })
+
+    it("Verify detail agency", () => {
+        cy.intercept('GET', '/system/agency/list').as('getAgencyList');
+        cy.intercept('GET', '/administrator/account/manager').as('getAccountManager');
+        cy.intercept('GET', '/system/agency/group/list').as('getGroupList');
+        agencyObject.goToAgencyModule();
+        cy.wait(['@getAgencyList', '@getAccountManager', '@getGroupList']).then(([reqAgencyList, reqAccountManager, reqGroupList]) => {
+            expect(reqAgencyList.response.statusCode).to.eq(200);
+            expect(reqAccountManager.response.statusCode).to.eq(200);
+            expect(reqGroupList.response.statusCode).to.eq(200);
+        });
+        agencyObject.detailAgency();
     })
 })
